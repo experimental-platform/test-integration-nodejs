@@ -8,7 +8,7 @@ dependencies:
 
 test:
   override:
-    - docker run --name=test-integration-nodejs test-integration-nodejs:latest
+    - docker run -e "SSHKEY=${SSHKEY}" -e "APIKEY=${APIKEY}" --name=test-integration-nodejs test-integration-nodejs:latest
   post:
     - docker commit test-integration-nodejs test-integration-nodejs:latest
     - docker run --name=DUMP-test-integration-nodejs test-integration-nodejs:latest vagrant ssh -- sudo journalctl
