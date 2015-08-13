@@ -1,5 +1,6 @@
 # -*- mode: ruby -*-
 # # vi: set ft=ruby :
+require 'erb'
 
 Vagrant.require_version ">= 1.6.0"
 
