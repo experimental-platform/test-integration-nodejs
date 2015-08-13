@@ -1,0 +1,57 @@
+#cloud-config
+hostname: experimental-platform
+
+users:
+  - name: root
+    passwd: "*"
+    groups:
+      - sudo
+      - docker
+      - wheel
+      - systemd-journal
+    ssh-authorized-keys:
+      - <%= ENV.fetch('SSHKEY') %>
+
+coreos:
+  update:
+    reboot-strategy: off
+  units:
+    - name: testing-config-skvs-protonet.service
+      # command: start
+      enable: true
+      content: |
+        [Unit]
+        Description=Configure PTW
+        After=skvs-protonet.service
+        Requires=skvs-protonet.service
+
+        [Service]
+        ExecStart=/bin/bash -c "curl -X PUT -d value=protonet-test-integration.protonet.info http://$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' skvs):80/ptw/nodename"
+        KillMode=none
+        Type=oneshot
+        StopWhenUnneeded=yes
+        RemainAfterExit=yes
+
+        [Install]
+        WantedBy=multi-user.target
+    - name: testing-all-clear-signal-protonet.service
+      # command: start
+      enable: true
+      content: |
+        [Unit]
+        Description=Send an all clear signal
+        After=testing-config-skvs-protonet.service dokku-protonet.service
+        Requires=testing-config-skvs-protonet.service dokku-protonet.service
+
+        [Service]
+        Type=idle
+        TimeoutStartSec=0
+        ExecStart=/bin/bash -c 'docker ps | grep dokku && /usr/bin/ncat -c "echo OKAY" -l -k  42423'
+        Restart=always
+        RestartSec=60s
+
+        [Install]
+        WantedBy=multi-user.target
+
+
+

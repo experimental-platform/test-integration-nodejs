@@ -1,0 +1,16 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker build -t test-integration-nodejs:latest .
+
+test:
+  override:
+    - docker run --name=test-integration-nodejs test-integration-nodejs:latest
+  post:
+    - docker commit test-integration-nodejs test-integration-nodejs:latest
+    - docker run --name=DUMP-test-integration-nodejs test-integration-nodejs:latest vagrant ssh -- sudo journalctl
+    - docker run --name=DESTROY-test-integration-nodejs test-integration-nodejs:latest vagrant destroy -f
+
