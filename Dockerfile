@@ -11,14 +11,6 @@ RUN vagrant box add digital_ocean https://github.com/smdahlen/vagrant-digitaloce
 
 ADD Vagrantfile /Vagrantfile
 ADD cloud-config.yaml /cloud-config.yaml
-ADD protonet_jenkins_digitalocean /.ssh/id_rsa
-ADD protonet_jenkins_digitalocean.pub /.ssh/id_rsa.pub
-ADD protonet_jenkins_digitalocean /root/.ssh/id_rsa
-ADD protonet_jenkins_digitalocean.pub /root/.ssh/id_rsa.pub
-
-RUN chmod 500 /.ssh /root/.ssh
-RUN chmod 400 /.ssh/id_rsa /root/.ssh/id_rsa
-
 
 ADD initialize.sh /initialize.sh
 ADD run_tests.sh /run_tests.sh
