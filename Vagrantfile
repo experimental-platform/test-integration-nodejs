@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   config.ssh.username = false
   config.ssh.forward_agent = true
+  config.ssh.private_key_path = '/.ssh/id_rsa'
   config.vm.synced_folder '.', '/vagrant', :disabled => true
   config.vm.box = 'digital_ocean'
   config.vm.box_version = ">= 308.0.1"
