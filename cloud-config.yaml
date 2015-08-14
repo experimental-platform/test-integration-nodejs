@@ -10,7 +10,7 @@ users:
       - wheel
       - systemd-journal
     ssh-authorized-keys:
-      - <%= ENV.fetch('SSHKEY') %>
+      - <%= IO.read("/.ssh/id_rsa.pub") %>
 
 coreos:
   update:

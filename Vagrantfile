@@ -11,7 +11,6 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = hostname
   config.ssh.insert_key = false
   config.ssh.username = false
-  config.ssh.forward_agent = true
   config.ssh.private_key_path = '/.ssh/id_rsa'
   config.vm.synced_folder '.', '/vagrant', :disabled => true
   config.vm.box = 'digital_ocean'
@@ -23,6 +22,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider :digital_ocean do |provider, override|
     provider.user_data = ERB.new(IO.read("/cloud-config.yaml")).result
     provider.name = hostname
+    provider.ssh_key_name = "CircleCI (Platform)"
     provider.token = ENV.fetch('APIKEY')
     provider.image = 'coreos-beta'
     provider.region = 'nyc2'
