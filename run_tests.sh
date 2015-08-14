@@ -9,7 +9,7 @@ echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 HOSTIP=$(vagrant ssh-config | awk '/HostName/ {print $2}')
 
 echo -e "\nSETTING up Dokku SSH key.\n"
-echo ${SSHKEY} | vagrant ssh -c "docker exec -i dokku sshcommand acl-add dokku root"
+cat /.ssh/id_rsa.pub | vagrant ssh -c "docker exec -i dokku sshcommand acl-add dokku root"
 
 echo -e "\nCLONING repo\n"
 git clone https://github.com/heroku/node-js-sample.git

@@ -15,14 +15,14 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder '.', '/vagrant', :disabled => true
   config.vm.box = 'digital_ocean'
   config.vm.box_version = ">= 308.0.1"
-  config.vm.box_url = "http://beta.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json"
+  config.vm.box_url = 'http://beta.release.core-os.net/amd64-usr/current/coreos_production_vagrant.json'
   # config.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
   config.vm.define hostname do |foobar|
   end
   config.vm.provider :digital_ocean do |provider, override|
-    provider.user_data = ERB.new(IO.read("/cloud-config.yaml")).result
+    provider.user_data = ERB.new(IO.read('/cloud-config.yaml')).result
     provider.name = hostname
-    provider.ssh_key_name = "CircleCI (Platform)"
+    provider.ssh_key_name = 'CircleCI Integration Test: ' + hostname
     provider.token = ENV.fetch('APIKEY')
     provider.image = 'coreos-beta'
     provider.region = 'nyc2'
