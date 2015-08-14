@@ -18,12 +18,13 @@ function initialize() {
         if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
             break
         fi
-        if [[ ${i} -gt 10 ]]; then
+        if [[ ${i} -gt 5 ]]; then
             echo -e "\n\n\nERROR: Couldn't install test platform.\n"
             exit 42
         fi
         i=$[$i+1]
-        echo -e "\n\nERROR DURING THE INSTALLATION OF PLATFORM CHANNEL ${CHANNEL}."
+        vagrant ssh -c "journalctl -x" || true
+        echo -e "\n\n\nERROR DURING THE INSTALLATION OF PLATFORM CHANNEL ${CHANNEL} (${i}. time).\n"
         echo -ne "Sleeping 15 seconds..."
         sleep 15
         echo -e " trying again."
