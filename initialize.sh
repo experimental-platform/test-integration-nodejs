@@ -14,17 +14,15 @@ function initialize() {
         echo -e "\n\n$(date)\tSTARTING DROPLET\n\n"
         local VAGRANT_RESULT=$(vagrant up)
         echo -e "\n\nINSTALLING PLATFORM CHANNEL ${CHANNEL}."
-        vagrant ssh -c "curl https://raw.githubusercontent.com/experimental-platform/platform-configure-script/master/platform-configure.sh | sudo CHANNEL=${CHANNEL} sh" > /dev/stderr | true
-        if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
-            echo -e "\n\nINSTALLATION SUCCESSFUL!\n"
-            break
-        fi
+
+        CMDLINE="curl https://raw.githubusercontent.com/experimental-platform/platform-configure-script/master/platform-configure.sh | sudo CHANNEL=${CHANNEL} sh"
+        vagrant ssh -c "${CMDLINE}" && echo -e "\n\nINSTALLATION SUCCESSFUL!\n" && break || echo -e "\n\nERROR status: $?\n"
         if [[ ${i} -gt 5 ]]; then
             echo -e "\n\n\nERROR: Couldn't install test platform.\n"
             exit 42
         fi
         i=$[$i+1]
-        vagrant ssh -c "journalctl -x" || true
+        # TODO: re-enable after debug session # vagrant ssh -c "journalctl -x" || true
         echo -e "\n\n\nERROR DURING THE INSTALLATION OF PLATFORM CHANNEL ${CHANNEL} (${i}. time).\n"
         echo -ne "Sleeping 15 seconds..."
         sleep 15
