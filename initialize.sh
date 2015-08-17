@@ -14,7 +14,7 @@ function initialize() {
         echo -e "\n\n$(date)\tSTARTING DROPLET\n\n"
         local VAGRANT_RESULT=$(vagrant up)
         echo -e "\n\nINSTALLING PLATFORM CHANNEL ${CHANNEL}."
-        vagrant ssh -c "curl https://git.protorz.net/AAL/platform-configure-script/raw/master/platform-configure.sh | sudo CHANNEL=${CHANNEL} sh" > /dev/stderr | true
+        vagrant ssh -c "curl https://raw.githubusercontent.com/experimental-platform/platform-configure-script/master/platform-configure.sh | sudo CHANNEL=${CHANNEL} sh" > /dev/stderr | true
         if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
             echo -e "\n\nINSTALLATION SUCCESSFUL!\n"
             break
