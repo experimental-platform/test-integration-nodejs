@@ -31,8 +31,6 @@ function initialize() {
         sleep 30
     done
 
-    echo -e "INSTALLATION SUCCESSFUL.\n\n"
-
     local HOSTIP=$(vagrant ssh-config | awk '/HostName/ {print $2}')
     if [[ -z "$HOSTIP" ]]; then
         echo -e "\n\nHOSTIP not set!\n\n"
