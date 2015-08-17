@@ -16,6 +16,7 @@ function initialize() {
         echo -e "\n\nINSTALLING PLATFORM CHANNEL ${CHANNEL}."
         vagrant ssh -c "curl https://git.protorz.net/AAL/platform-configure-script/raw/master/platform-configure.sh | sudo CHANNEL=${CHANNEL} sh" > /dev/stderr | true
         if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
+            echo -e "\n\nINSTALLATION SUCCESSFUL!\n"
             break
         fi
         if [[ ${i} -gt 5 ]]; then
