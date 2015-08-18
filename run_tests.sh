@@ -12,8 +12,8 @@ echo -e "\nSETTING up Dokku SSH key.\n"
 cat /.ssh/id_rsa.pub | vagrant ssh -c "docker exec -i dokku sshcommand acl-add dokku root"
 
 echo -e "\nCLONING repo\n"
-git clone https://github.com/heroku/node-js-sample.git
-cd node-js-sample/
+git clone https://github.com/experimental-platform/nodejs-hello-world.git
+cd nodejs-hello-world/
 git config user.email "platform@protonet.info"
 git config user.name "Protonet Integration Test node.js"
 # http://progrium.viewdocs.io/dokku/checks-examples.md
