@@ -20,10 +20,10 @@ echo -e "WAIT=10\nATTEMPTS=20\n/ Hello" > CHECKS
 git add .
 git commit -a -m "Initial Commit"
 echo -e "\nRUNNING git push to ${HOSTIP}\n"
-git remote add dokku ssh://dokku@${HOSTIP}:8022/node-js-aptfile
+git remote add dokku ssh://dokku@${HOSTIP}:8022/node-js-apt-packages
 # destroy in case it's already deployed
-ssh -t -p 8022 dokku@${HOSTIP} apps:destroy node-js-aptfile force || true
+ssh -t -p 8022 dokku@${HOSTIP} apps:destroy node-js-apt-packages force || true
 # ssh -t -p 8022 dokku@${HOSTIP} trace on
 git push dokku master
 
-curl http://${HOSTIP}/node-js-aptfile/ | grep GraphicsMagick
+curl http://${HOSTIP}/node-js-apt-packages/ | grep GraphicsMagick
