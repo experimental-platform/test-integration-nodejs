@@ -16,7 +16,7 @@ git checkout example_aptfile
 git config user.email "platform@protonet.info"
 git config user.name "Protonet Integration Test node.js"
 # http://progrium.viewdocs.io/dokku/checks-examples.md
-echo -e "WAIT=10\nATTEMPTS=20\n/ Hello" > CHECKS
+echo -e "WAIT=10\nATTEMPTS=20\n/ GraphicsMagick" > CHECKS
 git add .
 git commit -a -m "Initial Commit"
 echo -e "\nRUNNING git push to ${HOSTIP}\n"
