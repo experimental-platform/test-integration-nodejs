@@ -1,5 +1,4 @@
 #cloud-config
-hostname: experimental-platform
 
 users:
   - name: root
@@ -29,7 +28,6 @@ coreos:
         ExecStart=/bin/bash -c "curl -X PUT -d value=protonet-test-integration.protonet.info http://$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' skvs):80/ptw/nodename"
         KillMode=none
         Type=oneshot
-        StopWhenUnneeded=yes
         RemainAfterExit=yes
 
         [Install]
