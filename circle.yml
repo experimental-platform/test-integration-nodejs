@@ -10,7 +10,7 @@ dependencies:
 
 test:
   override:
-    - docker run --name=test-integration-nodejs test-integration-nodejs:latest /initialize.sh run_tests.sh
+    - docker run --name=test-integration-nodejs test-integration-nodejs:latest /run_tests.sh
   post:
     - docker run --name=DUMP-test-integration-nodejs test-integration-nodejs:latest vagrant ssh -- sudo journalctl
     - docker run --name=DESTROY-test-integration-nodejs test-integration-nodejs:latest vagrant destroy -f
