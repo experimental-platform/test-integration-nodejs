@@ -2,7 +2,7 @@
 
 users:
   - name: root
-    passwd: $1$C3IPO/Q4$rh9psb.DS/2exW4mXaek50
+    passwd: "*"
     groups:
       - sudo
       - docker
