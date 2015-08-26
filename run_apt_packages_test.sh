@@ -19,6 +19,10 @@ git config user.name "Protonet Integration Test node.js"
 echo -e "WAIT=10\nATTEMPTS=20\n/ GraphicsMagick" > CHECKS
 git add .
 git commit -a -m "Initial Commit"
+# dokku accepts only pushes to master
+git checkout master
+git merge example_aptfile
+
 echo -e "\nRUNNING git push to ${HOSTIP}\n"
 git remote add dokku ssh://dokku@${HOSTIP}:8022/node-js-apt-packages
 # destroy in case it's already deployed
