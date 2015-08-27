@@ -5,7 +5,12 @@ machine:
 dependencies:
   override:
     - docker build -t test-integration-nodejs:latest .
-    - docker run -e "APIKEY=${APIKEY}" --name=test-integration-nodejs-init test-integration-nodejs:latest /initialize.sh
+    - >
+      docker run
+      -e "APIKEY=${APIKEY}"
+      -e "CIRCLE_PROJECT_REPONAME=${CIRCLE_PROJECT_REPONAME}"
+      -e "CIRCLE_BUILD_NUM=${CIRCLE_BUILD_NUM}"
+      --name=test-integration-nodejs-init test-integration-nodejs:latest /initialize.sh
     - docker commit test-integration-nodejs-init test-integration-nodejs:latest
 
 test:
