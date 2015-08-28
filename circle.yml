@@ -18,6 +18,7 @@ test:
   override:
     - docker run --name=test-integration-nodejs-hello-world test-integration-nodejs:latest /run_hello_world_test.sh
     - docker run --name=test-integration-nodejs-apt-packages test-integration-nodejs:latest /run_apt_packages_test.sh
+    - docker run --name=test-integration-nodejs-lsusb test-integration-nodejs:latest /run_lsusb_test.sh
   post:
     - docker run --name=DUMP-test-integration-nodejs test-integration-nodejs:latest vagrant ssh -- sudo journalctl
     - docker run --name=DESTROY-test-integration-nodejs test-integration-nodejs:latest vagrant destroy -f
