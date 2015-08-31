@@ -11,12 +11,16 @@ cat /.ssh/id_rsa.pub | vagrant ssh -c "docker exec -i dokku sshcommand acl-add d
 echo -e "\nCLONING repo\n"
 git clone https://github.com/experimental-platform/nodejs-hello-world.git
 cd nodejs-hello-world/
+echo -e "\nCHECKING OUT branch\n"
+git checkout lsusb
 git config user.email "platform@protonet.info"
 git config user.name "Protonet Integration Test node.js"
 # http://progrium.viewdocs.io/dokku/checks-examples.md
 echo -e "WAIT=10\nATTEMPTS=20\n/ lsusb" > CHECKS
 git add .
 git commit -a -m "Initial Commit"
+# dokku accepts only pushes to master
+git checkout master
 git merge lsusb
 
 echo -e "\nRUNNING git push to ${HOSTIP}\n"
