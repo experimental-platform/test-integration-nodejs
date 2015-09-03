@@ -20,10 +20,10 @@ test:
     - docker run --name=test-integration-nodejs-apt-packages test-integration-nodejs:latest /run_apt_packages_test.sh
     - docker run --name=test-integration-nodejs-apt-packages test-integration-nodejs:latest /run_restart_test.sh
   post:
-    - docker run --name=DUMP-test-integration-nodejs test-integration-nodejs:latest vagrant ssh -- sudo journalctl
-    - docker run --name=DESTROY-test-integration-nodejs test-integration-nodejs:latest vagrant destroy -f
     - >
       SSHKEY=$(docker run --name=CLEANUP-SSH-test-integration-nodejs test-integration-nodejs:latest ssh-keygen -l -f /.ssh/id_rsa)
       curl -f -X DELETE -H 'Content-Type: application/json' -H "Authorization: Bearer ${APIKEY}" https://api.digitalocean.com/v2/account/keys/$(awk '{ print $2 }' <<< ${SSHKEY})
+    - docker run --name=DUMP-test-integration-nodejs test-integration-nodejs:latest vagrant ssh -- sudo journalctl
+    # - docker run --name=DESTROY-test-integration-nodejs test-integration-nodejs:latest vagrant destroy -f
     # TODO: Collect container as an asset?
 
