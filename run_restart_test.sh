@@ -6,7 +6,7 @@ echo "List of running processes (asserting their existance)"
 vagrant ssh -c "docker exec dokku dokku ls" | grep running
 
 echo -e "\n\nRebooting the system now:\n"
-vagrant ssh -c "sudo reboot"
+vagrant ssh -c "nohup sudo reboot &"
 sleep 10
 
 COUNTER=0
