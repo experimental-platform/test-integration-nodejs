@@ -2,7 +2,11 @@
 # enable fail detection...
 set -e
 
-vagrant ssh -c "sudo restart"
+echo "List of running processes (asserting their existance)"
+vagrant ssh -c "docker exec dokku dokku ls" | grep running
+
+echo -e "\n\nRebooting the system now:\n"
+vagrant ssh -c "sudo reboot"
 sleep 10
 
 COUNTER=0
@@ -27,7 +31,7 @@ while true ; do
     echo -n '.'
 done
 
-echo "List of all containers:"
+echo -e "\n\n\nList of running processes (after reboot)\n"
 vagrant ssh -c "docker exec dokku dokku ls"
 
 # the actual test for running containers
