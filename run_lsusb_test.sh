@@ -32,5 +32,5 @@ git push dokku master
 
 RESPONSE=$(curl http://${HOSTIP}/node-js-lsusb/)
 
-echo "\nRESPONSE: $RESPONSE"
-echo $RESPONSE | grep Bus | grep Device
+echo "\nRESPONSE: ${RESPONSE}"
+echo ${RESPONSE} | grep Bus | grep Device
