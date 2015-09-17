@@ -20,7 +20,11 @@ while true ; do
     echo -e "$(date)\t(${COUNTER}) Waiting for connection to ${HOSTIP}"
     nc -z $HOSTIP 8022 2>/dev/null | true
     if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
-        echo -e "\n\n$(date)\tDROPLET STATUS IS OKAY\n\n"
+        echo -e "\n\n$(date)\tDROPLET STATUS IS OKAY"
+        echo -e "$(date)\tRESTARTING APPLICATIONS\n\n"
+        # Make sure that the rebuild has run.
+        vagrant ssh -c "sudo systemctl start dokku-rebuild-apps-protonet.service"
+        echo -e "\n\n$(date)\tAPP REBUILD SUCCESSFUL\n\n"
         break
     fi
     if [[ ${COUNTER} -gt ${MAXCOUNT} ]]; then
