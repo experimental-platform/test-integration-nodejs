@@ -15,7 +15,7 @@ test:
       -e "IMAGE=${IMAGE:-coreos-beta}"
       -e "CHANNEL=${CHANNEL:-development}"
       -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
-      -e "AWS_SECRET_KEY=${AWS_SECRET_KEY}"
+      -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
       --name=test-integration-nodejs-init test-integration-nodejs:latest /initialize.sh
     - docker commit test-integration-nodejs-init test-integration-nodejs:latest
   override:
