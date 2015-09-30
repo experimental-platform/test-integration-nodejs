@@ -10,11 +10,12 @@ test:
   pre:
     - >
       docker run
-      -e "APIKEY=${APIKEY}"
       -e "CIRCLE_PROJECT_REPONAME=${CIRCLE_PROJECT_REPONAME}"
       -e "CIRCLE_BUILD_NUM=${CIRCLE_BUILD_NUM}"
       -e "IMAGE=${IMAGE:-coreos-beta}"
       -e "CHANNEL=${CHANNEL:-development}"
+      -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+      -e "AWS_SECRET_KEY=${AWS_SECRET_KEY}"
       --name=test-integration-nodejs-init test-integration-nodejs:latest /initialize.sh
     - docker commit test-integration-nodejs-init test-integration-nodejs:latest
   override:
@@ -23,9 +24,7 @@ test:
     - docker run --name=test-integration-nodejs-lsusb test-integration-nodejs:latest /run_lsusb_test.sh
     - docker run --name=test-integration-nodejs-restart test-integration-nodejs:latest /run_restart_test.sh
   post:
-    - docker run test-integration-nodejs:latest ssh-keygen -l -f /.ssh/id_rsa | awk '{ print $2 }' > ~/sshid
     - docker run --name=DUMP-test-integration-nodejs test-integration-nodejs:latest vagrant ssh -- sudo journalctl
     - docker run --name=DESTROY-test-integration-nodejs test-integration-nodejs:latest vagrant destroy -f
-    - 'curl -f -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer ${APIKEY}" https://api.digitalocean.com/v2/account/keys/$(cat ~/sshid)'
     # TODO: Collect container as an asset?
 
