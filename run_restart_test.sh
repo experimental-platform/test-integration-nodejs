@@ -23,7 +23,7 @@ while true ; do
         echo -e "\n\n$(date)\tDROPLET STATUS IS OKAY"
         echo -e "$(date)\tRESTARTING APPLICATIONS\n\n"
         # Make sure that the rebuild has run.
-        vagrant ssh -c "sudo systemctl start dokku-rebuild-apps-protonet.service"
+        vagrant ssh -c "docker exec -u dokku dokku dokku ps:rebuildall"
         echo -e "\n\n$(date)\tAPP REBUILD SUCCESSFUL\n\n"
         break
     fi
@@ -38,3 +38,4 @@ vagrant ssh -c "docker exec dokku dokku ls"
 
 # the actual test for running containers
 vagrant ssh -c "docker exec dokku dokku ls" | grep running
+
