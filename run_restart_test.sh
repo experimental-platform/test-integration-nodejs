@@ -21,14 +21,24 @@ while true ; do
     nc -z $HOSTIP 8022 2>/dev/null | true
     if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
         echo -e "\n\n$(date)\tDROPLET STATUS IS OKAY"
-        echo -e "$(date)\tRESTARTING APPLICATIONS\n\n"
-        # Make sure that the rebuild has run.
-        vagrant ssh -c "docker exec -u dokku dokku dokku ps:rebuildall"
-        echo -e "\n\n$(date)\tAPP REBUILD SUCCESSFUL\n\n"
         break
     fi
     if [[ ${COUNTER} -gt ${MAXCOUNT} ]]; then
         echo -e "\n\n\n\n$(date)\tERROR CONNECTION TIMEOUT... trying anyhow...\n\n\n\n"
+        break
+    fi
+done
+
+while true; do
+    COUNTER=$((COUNTER + 1))
+    sleep ${SLEEPTIME}
+    vagrant ssh -c "sudo systemctl is-active dokku-protonet.service 2>/dev/null" | true
+    if [[ ${PIPESTATUS[0]} -eq 0 ]]; then
+        echo -e "\n\n$(date)\tDOKKU IS UP"
+        break
+    fi
+    if [[ ${COUNTER} -gt ${MAXCOUNT} ]]; then
+        echo -e "\n\n\n\n$(date)\tWAITING FOR DOKKU TO START...\n\n\n\n"
         break
     fi
 done
