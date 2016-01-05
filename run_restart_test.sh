@@ -12,6 +12,7 @@ sleep 10
 COUNTER=0
 MAXCOUNT=120
 SLEEPTIME=2
+CHECK_DELAY=20
 
 while true ; do
     COUNTER=$((COUNTER + 1))
@@ -44,6 +45,9 @@ while true; do
 done
 
 echo -e "\n\n\nList of running processes (after reboot)\n"
+vagrant ssh -c "docker exec dokku dokku ls"
+sleep ${CHECK_DELAY}
+echo -e "\n\n\nList of running processes (${CHECK_DELAY} seconds later)\n"
 vagrant ssh -c "docker exec dokku dokku ls"
 
 # the actual test for running containers
